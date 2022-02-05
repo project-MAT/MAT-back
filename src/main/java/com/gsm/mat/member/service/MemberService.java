@@ -1,7 +1,7 @@
 package com.gsm.mat.member.service;
 
 import com.gsm.mat.configuration.security.jwt.TokenProvider;
-import com.gsm.mat.exceptionAdvice.exception.UserNotFoundException;
+import com.gsm.mat.exception.exception.UserNotFoundException;
 import com.gsm.mat.member.Member;
 import com.gsm.mat.member.dto.MemberDto;
 import com.gsm.mat.member.repository.MemberRepository;

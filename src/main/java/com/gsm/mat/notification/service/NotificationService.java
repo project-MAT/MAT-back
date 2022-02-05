@@ -1,6 +1,7 @@
 package com.gsm.mat.notification.service;
 
-import com.gsm.mat.exceptionAdvice.exception.UserNotFoundException;
+import com.gsm.mat.exception.ErrorCode;
+import com.gsm.mat.exception.exception.UserNotFoundException;
 import com.gsm.mat.member.Member;
 import com.gsm.mat.member.repository.MemberRepository;
 import com.gsm.mat.member.service.MemberService;
@@ -34,7 +35,7 @@ public class NotificationService {
             notificationRepository.update(notification,findOne(notificationIdx));
         }
         else{
-            throw new UserNotFoundException();
+            throw new UserNotFoundException("User can't find", ErrorCode.USER_NOT_FOUND);
         }
     }
     public void deleteNotification(Long notificationIdx){
@@ -43,7 +44,7 @@ public class NotificationService {
             notificationRepository.delete(notificationIdx);
         }
         else{
-            throw new UserNotFoundException();
+            throw new UserNotFoundException("User can't find", ErrorCode.USER_NOT_FOUND);
         }
     }
     @Transactional(readOnly = true)

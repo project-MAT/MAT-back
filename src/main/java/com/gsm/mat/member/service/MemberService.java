@@ -1,6 +1,8 @@
 package com.gsm.mat.member.service;
 
 import com.gsm.mat.configuration.security.jwt.TokenProvider;
+import com.gsm.mat.exception.ErrorCode;
+import com.gsm.mat.exception.exception.PasswordNotCorrectException;
 import com.gsm.mat.exception.exception.UserNotFoundException;
 import com.gsm.mat.member.Member;
 import com.gsm.mat.member.dto.MemberDto;
@@ -43,11 +45,11 @@ public class MemberService {
      */
     public Map<String,String> login(String id,String password){
         List<Member> byEmail = memberRepository.findByEmail(id);
-        if(byEmail.size()==0){throw new UserNotFoundException();}//해당 id를 가진 유저가 존재하는지 확인
+        if(byEmail.size()==0){throw new UserNotFoundException("User can't find", ErrorCode.USER_NOT_FOUND);}//해당 id를 가진 유저가 존재하는지 확인
 
         Member member = byEmail.get(0);
         boolean check = passwordEncoder.matches(password, member.getPassword());
-        if(!check){throw new UserNotFoundException();}
+        if(!check){throw new PasswordNotCorrectException("Password is not correct", ErrorCode.USER_NOT_FOUND);}
 
         //토큰 발급
         final String accessToken=tokenProvider.generateAccessToken(member.getEmail());

@@ -4,10 +4,10 @@ import com.gsm.mat.exception.ErrorCode;
 import lombok.Getter;
 
 @Getter
-public class UserNotFoundException extends RuntimeException{
+public class PasswordNotCorrectException extends RuntimeException{
     private final ErrorCode errorCode;
 
-    public UserNotFoundException(String message, ErrorCode errorCode) {
+    public PasswordNotCorrectException(String message, ErrorCode errorCode) {
         super(message);
         this.errorCode = errorCode;
     }

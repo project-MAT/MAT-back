@@ -7,7 +7,6 @@ import com.gsm.mat.exception.exception.UserNotFoundException;
 import com.gsm.mat.member.Member;
 import com.gsm.mat.member.dto.MemberDto;
 import com.gsm.mat.member.repository.MemberRepository;
-import com.gsm.mat.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +26,6 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-    private final RedisUtil redisUtil;
 
     /**
      *회원가입
@@ -53,24 +51,15 @@ public class MemberService {
 
         //토큰 발급
         final String accessToken=tokenProvider.generateAccessToken(member.getEmail());
-        final String refreshToken=tokenProvider.generateRefreshToken(member.getEmail());
-
-        //토큰 유효기간 설정
-        redisUtil.setDataExpire(refreshToken,member.getEmail(),TokenProvider.REFRESH_TOKEN_EXPIRE_TIME);
 
         Map<String,String> map=new HashMap<>();
         map.put("id",member.getEmail());
         map.put("accessToken",accessToken);
-        map.put("refreshToken",refreshToken);
         return map;
     }
 
-    public void logOut(){
-        String userEmail = this.getUserEmail();
-        redisUtil.deleteData(userEmail);
-    }
-
     public void changeMajority(String majority){
+        String userEmail = getUserEmail();
         memberRepository.updateMajority(majority);
     }
     private void validDuplicateMember(Member member) {

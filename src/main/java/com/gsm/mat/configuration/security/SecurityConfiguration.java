@@ -1,8 +1,8 @@
 package com.gsm.mat.configuration.security;
 
 
-import com.gsm.mat.configuration.exeptionFilter.ExceptionHandlerFilter;
 import com.gsm.mat.configuration.security.jwt.JwtRequestFilter;
+import com.gsm.mat.exception.controller.ExceptionHandlerFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
+@AllArgsConstructor
 @Builder
 @Getter @Setter
 public class Notification {
@@ -13,7 +14,7 @@ public class Notification {
     private Long notification_id;
     private String title;
     private String content;
-    private int goods=0;
+    private int goods;
 
 
     @ManyToOne(fetch = FetchType.EAGER)

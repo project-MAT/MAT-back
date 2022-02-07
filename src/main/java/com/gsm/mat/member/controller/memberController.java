@@ -41,7 +41,6 @@ public class memberController {
     }
     @PostMapping("/member/logout")
     public CommonResult logOut(){
-        memberService.logOut();
         return responseService.getSuccessResult();
     }
 }

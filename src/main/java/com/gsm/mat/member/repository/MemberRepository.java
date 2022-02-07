@@ -1,6 +1,7 @@
 package com.gsm.mat.member.repository;
 
-import com.gsm.mat.exceptionAdvice.exception.UserNotFoundException;
+import com.gsm.mat.exception.ErrorCode;
+import com.gsm.mat.exception.exception.UserNotFoundException;
 import com.gsm.mat.member.Member;
 import com.gsm.mat.member.service.MemberService;
 import org.springframework.stereotype.Repository;
@@ -33,13 +34,13 @@ public class MemberRepository {
     public void updateMajority(String majority){
         List<Member> member = findByEmail(MemberService.getUserEmail());
         if(!member.isEmpty()){
-            em.createQuery("update Member m set m.majority=: majority where m.id=:memberIdx")
+            em.createQuery("update Member m set m.majority=: majority where m=:member")
                     .setParameter("majority",majority)
-                    .setParameter("memberIdx",member.get(0).getId())
+                    .setParameter("member",member.get(0))
                     .executeUpdate();
         }
         else{
-            throw new UserNotFoundException();
+            throw new UserNotFoundException("User can't find", ErrorCode.USER_NOT_FOUND);
         }
     }
 }

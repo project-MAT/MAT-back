@@ -17,21 +17,23 @@ import javax.servlet.http.HttpServletResponse;
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalExceptionController {
-    @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleUserNoExistsException(MemberNotExistsException ex){
+    @ExceptionHandler(MemberNotExistsException.class)
+    public ResponseEntity<ErrorResponse> MemberNotExistsExceptionHandler(HttpServletRequest request, HttpServletResponse response, MemberNotExistsException ex){
+        log.info(request.getRequestURI());
         log.error("UserNoExistsException", ex);
-        ErrorResponse response = new ErrorResponse(ex.getErrorCode());
-
-        return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
+        ex.printStackTrace();
+        ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
     }
-    @ExceptionHandler
-    public ResponseEntity<ErrorResponse> UserNotFoundExceptionHandler(UserNotFoundException ex){
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> UserNotFoundExceptionHandler(HttpServletRequest request, HttpServletResponse response, UserNotFoundException ex){
+        log.info(request.getRequestURI());
         log.error("UserNotFoundException", ex);
-        ErrorResponse response = new ErrorResponse(ex.getErrorCode());
-
-        return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
+        ex.printStackTrace();
+        ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
     }
-    @ExceptionHandler
+    @ExceptionHandler(PasswordNotCorrectException.class)
     public ResponseEntity<ErrorResponse> PasswordNotCorrectExceptionHandler(HttpServletRequest request, HttpServletResponse response, PasswordNotCorrectException ex){
         log.info(request.getRequestURI());
         log.error("PasswordNotCorrectException", ex);

@@ -47,7 +47,7 @@ public class MemberService {
 
         Member member = byEmail.get(0);
         boolean check = passwordEncoder.matches(password, member.getPassword());
-        if(!check){throw new PasswordNotCorrectException("Password is not correct", ErrorCode.USER_NOT_FOUND);}
+        if(!check){throw new PasswordNotCorrectException("Password is not correct", ErrorCode.PASSWORD_NOT_MATCH);}
 
         //토큰 발급
         final String accessToken=tokenProvider.generateAccessToken(member.getEmail());

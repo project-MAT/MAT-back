@@ -13,7 +13,7 @@ public enum ErrorCode {
     MEMBER_NOT_EXISTS(404,"Can't find member by id", ErrorClassification.MEMBER+"-ERR-404"),
     USER_NOT_FOUND(401, "User Not Found", ErrorClassification.MEMBER+"-ERR-401"),
     INVALID_TOKEN(401, "Invalid Token", ErrorClassification.MEMBER+"-ERR-401"),
-    PASSWORD_NOT_EXISTS(404, "Password Is Not Correct", ErrorClassification.MEMBER+"-ERR-404"),
+    PASSWORD_NOT_MATCH(403, "Password Is Not Correct", ErrorClassification.MEMBER+"-ERR-403"),
     ;
     private int status;
     private String message;

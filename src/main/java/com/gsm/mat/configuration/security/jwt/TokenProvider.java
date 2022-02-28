@@ -14,12 +14,10 @@ import java.util.Date;
 @Component
 public class TokenProvider {
     public static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;            // 30분
-    public static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
     @Value("${jwt.secret}")
     private String SECRET_KEY;
     enum TokenType{
-        ACCESS_TOKEN("accessToken"),
-        REFRESH_TOKEN("refreshToken");
+        ACCESS_TOKEN("accessToken");
         String value;
         TokenType(String value){
             this.value=value;
@@ -74,9 +72,6 @@ public class TokenProvider {
     }
     public String generateAccessToken(String email){
         return doGenerateToken(email,TokenType.ACCESS_TOKEN,ACCESS_TOKEN_EXPIRE_TIME);
-    }
-    public String generateRefreshToken(String email){
-        return doGenerateToken(email,TokenType.REFRESH_TOKEN,REFRESH_TOKEN_EXPIRE_TIME);
     }
 
 }

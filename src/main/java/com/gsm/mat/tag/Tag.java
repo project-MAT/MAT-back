@@ -1,5 +1,6 @@
 package com.gsm.mat.tag;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gsm.mat.notification.Notification;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,7 @@ public class Tag {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="notification_id")
+    @JsonIgnore
     private Notification notification;
 
     public Tag(){}

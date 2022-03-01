@@ -1,9 +1,11 @@
 package com.gsm.mat.notification;
 
 import com.gsm.mat.member.Member;
+import com.gsm.mat.tag.Tag;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -20,6 +22,10 @@ public class Notification {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="member_id",nullable = false)
     private Member member;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "notification_id")
+    private List<Tag> tags;
 
     public Notification() {}
 

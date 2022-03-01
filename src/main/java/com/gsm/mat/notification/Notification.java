@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Builder
 @Getter @Setter
 public class Notification {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long notification_id;
     private String title;
     private String content;

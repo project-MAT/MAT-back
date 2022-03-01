@@ -15,7 +15,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @Getter @Builder
 public class Member implements UserDetails {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "member_id")
     private long id;
 

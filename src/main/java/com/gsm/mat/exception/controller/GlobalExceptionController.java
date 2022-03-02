@@ -38,6 +38,13 @@ public class GlobalExceptionController {
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
     }
 
+    @ExceptionHandler(NotMinusGoodsException.class)
+    public ResponseEntity<ErrorResponse> UserNotFoundExceptionHandler(HttpServletRequest request, HttpServletResponse response, NotMinusGoodsException ex){
+        printExceptionMessage(request, ex, "Can't minus notification's goods");
+        ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
+    }
+
     private void printExceptionMessage(HttpServletRequest request, RuntimeException ex, String message) {
         log.error(request.getRequestURI());
         log.error(message);

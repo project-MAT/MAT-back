@@ -1,6 +1,7 @@
 package com.gsm.mat.notification.service;
 
 import com.gsm.mat.exception.ErrorCode;
+import com.gsm.mat.exception.exception.NotMinusGoodsException;
 import com.gsm.mat.exception.exception.UserNotFoundException;
 import com.gsm.mat.member.Member;
 import com.gsm.mat.member.repository.MemberRepository;
@@ -76,6 +77,7 @@ public class NotificationService {
     }
     public void minusGoods(Long id){
         Notification notification = notificationRepository.findById(id);
-        notification.updateGoods(notification.getGoods()-1);
+        if(notification.getGoods()>0){notification.updateGoods(notification.getGoods()-1);}
+        else {throw new NotMinusGoodsException("this notification's goods are smaller than 1", ErrorCode.CAN_NOT_MINUS);}
     }
 }

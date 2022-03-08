@@ -1,5 +1,6 @@
 package com.gsm.mat.exception.controller;
 
+import com.gsm.mat.exception.ErrorCode;
 import com.gsm.mat.exception.ErrorResponse;
 import com.gsm.mat.exception.exception.*;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +8,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -43,6 +45,12 @@ public class GlobalExceptionController {
         printExceptionMessage(request, ex, "Can't minus notification's goods");
         ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode());
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
+    }
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> HttpMessageNotReadableExceptionHandler(HttpServletRequest request, HttpServletResponse response, HttpMessageNotReadableException ex){
+        printExceptionMessage(request, ex, "Can't minus notification's goods");
+        ErrorResponse errorResponse = new ErrorResponse(ErrorCode.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(ErrorCode.BAD_REQUEST.getStatus()));
     }
 
     private void printExceptionMessage(HttpServletRequest request, RuntimeException ex, String message) {

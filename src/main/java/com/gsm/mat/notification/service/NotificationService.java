@@ -2,6 +2,7 @@ package com.gsm.mat.notification.service;
 
 import com.gsm.mat.exception.ErrorCode;
 import com.gsm.mat.exception.exception.NotMinusGoodsException;
+import com.gsm.mat.exception.exception.NotificationNotFindException;
 import com.gsm.mat.exception.exception.UserNotFoundException;
 import com.gsm.mat.member.Member;
 import com.gsm.mat.member.repository.MemberRepository;
@@ -54,7 +55,11 @@ public class NotificationService {
     }
     @Transactional(readOnly = true)
     public Notification findOne(Long id){
-        return notificationRepository.findById(id);
+        Notification byId = notificationRepository.findById(id);
+        if(byId == null){
+            throw new NotificationNotFindException("notification can't find", ErrorCode.NOTIFICATION_NOT_FIND);
+        }
+        return byId;
     }
     @Transactional(readOnly = true)
     public List<Notification> findByGoods(){

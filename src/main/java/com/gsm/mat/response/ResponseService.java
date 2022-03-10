@@ -1,7 +1,5 @@
 package com.gsm.mat.response;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gsm.mat.response.result.CommonResult;
 import com.gsm.mat.response.result.ListResult;
 import com.gsm.mat.response.result.SingleResult;
@@ -13,8 +11,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ResponseService {
-
-    public final ObjectMapper mapper;
 
     public enum CommonResponse{
         SUCCESS(200, "성공하였습니다");

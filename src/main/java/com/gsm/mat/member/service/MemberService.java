@@ -2,6 +2,7 @@ package com.gsm.mat.member.service;
 
 import com.gsm.mat.configuration.security.jwt.TokenProvider;
 import com.gsm.mat.exception.ErrorCode;
+import com.gsm.mat.exception.exception.DuplicateMemberException;
 import com.gsm.mat.exception.exception.PasswordNotCorrectException;
 import com.gsm.mat.exception.exception.UserNotFoundException;
 import com.gsm.mat.member.Member;
@@ -65,7 +66,7 @@ public class MemberService {
     private void validDuplicateMember(Member member) {
         List<Member> byEmail = memberRepository.findByEmail(member.getEmail());
         if(!byEmail.isEmpty()){
-            throw new IllegalStateException("이미 존재하는 회원입니다");
+            throw new DuplicateMemberException("Member already exists", ErrorCode.DUPLICATE_MEMBER);
         }
     }
 

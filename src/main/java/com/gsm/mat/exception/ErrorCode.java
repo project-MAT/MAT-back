@@ -14,7 +14,8 @@ public enum ErrorCode {
     USER_NOT_FOUND(401, "User Not Found", ErrorClassification.MEMBER+"-ERR-401"),
     INVALID_TOKEN(401, "Invalid Token", ErrorClassification.MEMBER+"-ERR-401"),
     PASSWORD_NOT_MATCH(403, "Password Is Not Correct", ErrorClassification.MEMBER+"-ERR-403"),
-    CAN_NOT_MINUS(400, "Can't minus notification's goods", ErrorClassification.COMMON+"-ERR-400")
+    CAN_NOT_MINUS(400, "Can't minus notification's goods", ErrorClassification.COMMON+"-ERR-400"),
+    DUPLICATE_MEMBER(406, "Member already exists", ErrorClassification.MEMBER+"-ERR-406"),
     ;
     private int status;
     private String message;

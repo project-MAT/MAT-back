@@ -1,12 +1,15 @@
 package com.gsm.mat.response.result;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 
 @Getter
-@Setter
 public class ListResult<T> extends CommonResult {
     private List<T> list;
+
+    public ListResult(CommonResult result,List<T> list) {
+        super(result.isSuccess(), result.getCode(), result.getMsg());
+        this.list=list;
+    }
 }

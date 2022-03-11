@@ -1,10 +1,10 @@
 package com.gsm.mat.response.result;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
+@AllArgsConstructor
 public class CommonResult {
     private boolean success;
 

@@ -29,7 +29,6 @@ public class ResponseService {
     // 다중건 결과를 처리하는 메소드
     public <T> ListResult<T> getListResult(List<T> list) {
         ListResult<T> result = new ListResult<>(createSuccessResult(), list);
-        result.setList(list);
         return result;
     }
     // 성공 결과만 처리하는 메소드

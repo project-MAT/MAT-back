@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@AllArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
 @Builder
 @Getter @Setter
 public class Notification {
@@ -19,7 +19,7 @@ public class Notification {
     private int goods;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id",nullable = false)
     private Member member;
 
@@ -27,10 +27,13 @@ public class Notification {
     @JoinColumn(name = "notification_id")
     private List<Tag> tags;
 
-    public Notification() {}
-
 
     public void updateGoods(int goods){
         this.goods=goods;
+    }
+
+    public void update(Notification notification){
+        this.title=notification.getTitle();
+        this.content=notification.getContent();
     }
 }

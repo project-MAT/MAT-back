@@ -13,11 +13,13 @@ import java.util.Date;
 
 @Component
 public class TokenProvider {
-    public static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;            // 30분
+    public static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 3;// 3시간
+    public static long REFRESH_TOKEN_EXPIRED_TIME = ACCESS_TOKEN_EXPIRE_TIME/3 * 24 * 180;
     @Value("${jwt.secret}")
     private String SECRET_KEY;
     enum TokenType{
-        ACCESS_TOKEN("accessToken");
+        ACCESS_TOKEN("accessToken"),
+        REFRESH_TOKEN("refreshToken");
         String value;
         TokenType(String value){
             this.value=value;
@@ -59,9 +61,7 @@ public class TokenProvider {
     }
     private String doGenerateToken(String userEmail, TokenType tokenType, long expireTime) {
         final Claims claims = Jwts.claims();
-        //AccessToken일 떄 TokenClaim에 UserEmail을 추가한다.
-        if(TokenType.ACCESS_TOKEN == tokenType)
-            claims.put("userEmail", userEmail);
+        claims.put("userEmail", userEmail);
         claims.put("tokenType", tokenType.value);
         return Jwts.builder()
                 .setClaims(claims)
@@ -72,6 +72,10 @@ public class TokenProvider {
     }
     public String generateAccessToken(String email){
         return doGenerateToken(email,TokenType.ACCESS_TOKEN,ACCESS_TOKEN_EXPIRE_TIME);
+    }
+
+    public String generateRefreshToken(String email){
+        return doGenerateToken(email, TokenType.REFRESH_TOKEN, REFRESH_TOKEN_EXPIRED_TIME);
     }
 
 }

@@ -17,13 +17,6 @@ public class NotificationRepository {
         em.persist(notification);
         return notification.getNotification_id();
     }
-    public void update(Notification notification, Notification before){
-        em.createQuery("update Notification m set m.title=:notificationTitle,m.content=:notificationContent where m.notification_id=:notificationIdx")
-                .setParameter("notificationTitle", notification.getTitle())
-                .setParameter("notificationContent", notification.getContent())
-                .setParameter("notificationIdx",before.getNotification_id())
-                .executeUpdate();
-    }
     public void delete(Long notificationIdx){
         em.createQuery("delete from Notification m where m.notification_id=:notificationIdx")
                 .setParameter("notificationIdx",notificationIdx)
@@ -38,11 +31,6 @@ public class NotificationRepository {
     }
     public List<Notification> findByGoods(){
         return em.createQuery("select m from Notification m order by m.goods desc", Notification.class)
-                .getResultList();
-    }
-    public List<Notification> findByUser(String email){
-        return em.createQuery("select m from Notification m where m.member.email=:email", Notification.class)
-                .setParameter("email",email)
                 .getResultList();
     }
     public List<Notification> findBySearch(String keyWord){

@@ -22,6 +22,8 @@ import java.util.List;
 public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
+
     public Long create(NotificationDto notificationDto){
         Notification notification = notificationDto.toEntity();
         List<Member> byEmail = memberRepository.findByEmail(MemberService.getUserEmail());
@@ -34,7 +36,7 @@ public class NotificationService {
         Member member = findOne(notificationIdx).getMember();
         Member findMember = memberRepository.findByEmail(MemberService.getUserEmail()).get(0);
         if(member==findMember){
-            notificationRepository.update(notification,findOne(notificationIdx));
+            notification.update(findOne(notificationIdx));
         }
         else{
             throw new UserNotFoundException("User can't find", ErrorCode.USER_NOT_FOUND);
@@ -67,7 +69,7 @@ public class NotificationService {
     }
     @Transactional(readOnly = true)
     public List<Notification> findMy() {
-        return notificationRepository.findByUser(MemberService.getUserEmail());
+        return memberService.findByEmail(MemberService.getUserEmail()).getNotifications();
     }
     @Transactional(readOnly = true)
     public List<Notification> findByKeyWord(String keyWord){

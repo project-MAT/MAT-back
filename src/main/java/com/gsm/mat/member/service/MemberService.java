@@ -52,10 +52,12 @@ public class MemberService {
 
         //토큰 발급
         final String accessToken=tokenProvider.generateAccessToken(member.getEmail());
+        final String refreshToken=tokenProvider.generateRefreshToken(member.getEmail());
 
         Map<String,String> map=new HashMap<>();
         map.put("id",member.getEmail());
         map.put("accessToken",accessToken);
+        map.put("refreshToken",refreshToken);
         return map;
     }
 
@@ -81,6 +83,7 @@ public class MemberService {
         List<Member> byEmail = memberRepository.findByEmail(email);
         return byEmail.get(0);
     }
+
     static public String getUserEmail() {
         String userEmail;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -1,6 +1,8 @@
 package com.gsm.mat.member;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gsm.mat.notification.Notification;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -26,6 +29,11 @@ public class Member implements UserDetails {
     private int cardinalNum;//기수
     private String majority;//전공
     private String discordNum;//디스코드 번호
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "member_id")
+    private List<Notification> notifications;
 
     public Member() {}
 

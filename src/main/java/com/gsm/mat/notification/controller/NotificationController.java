@@ -55,12 +55,12 @@ public class NotificationController {
     public ListResult<Notification> getNotificationSearch(@RequestParam("keyWord") String keyWord){
         return responseService.getListResult(notificationService.findByKeyWord(keyWord));
     }
-    @PutMapping("/notification/like/increase/{notificationIdx}")
+    @PatchMapping("/notification/like/increase/{notificationIdx}")
     public CommonResult likeNotification(@PathVariable Long notificationIdx){
         notificationService.addGoods(notificationIdx);
         return responseService.getSuccessResult();
     }
-    @PutMapping("/notification/like/decrease/{notificationIdx}")
+    @PatchMapping("/notification/like/decrease/{notificationIdx}")
     public CommonResult dislikeNotification(@PathVariable Long notificationIdx){
         notificationService.minusGoods(notificationIdx);
         return responseService.getSuccessResult();

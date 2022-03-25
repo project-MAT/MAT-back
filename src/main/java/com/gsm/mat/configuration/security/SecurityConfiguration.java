@@ -1,6 +1,5 @@
 package com.gsm.mat.configuration.security;
 
-
 import com.gsm.mat.configuration.security.jwt.JwtRequestFilter;
 import com.gsm.mat.exception.controller.ExceptionHandlerFilter;
 import lombok.RequiredArgsConstructor;
@@ -54,4 +53,3 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }
-

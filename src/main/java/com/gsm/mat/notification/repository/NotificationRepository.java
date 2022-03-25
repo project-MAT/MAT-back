@@ -1,5 +1,6 @@
 package com.gsm.mat.notification.repository;
 
+import com.gsm.mat.member.Member;
 import com.gsm.mat.notification.Notification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +24,7 @@ public class NotificationRepository {
                 .executeUpdate();
     }
     public Notification findById(Long id){
-        return em.find(Notification.class,id);
+        return em.find(Notification.class, id);
     }
     public List<Notification> findAll(){
         return em.createQuery("select m from Notification m", Notification.class)

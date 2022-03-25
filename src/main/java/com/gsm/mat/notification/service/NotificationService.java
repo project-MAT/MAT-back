@@ -23,7 +23,7 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final MemberRepository memberRepository;
     private final MemberService memberService;
-
+        
     public Long create(NotificationDto notificationDto){
         Notification notification = notificationDto.toEntity();
         List<Member> byEmail = memberRepository.findByEmail(MemberService.getUserEmail());

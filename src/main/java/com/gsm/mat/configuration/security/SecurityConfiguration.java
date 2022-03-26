@@ -1,7 +1,7 @@
 package com.gsm.mat.configuration.security;
 
 import com.gsm.mat.configuration.security.jwt.JwtRequestFilter;
-import com.gsm.mat.exception.controller.ExceptionHandlerFilter;
+import com.gsm.mat.exception.controller.JwtExceptionHandlerFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final JwtRequestFilter jwtRequestFilter;
-    private final ExceptionHandlerFilter exceptionHandlerFilter;
+    private final JwtExceptionHandlerFilter exceptionHandlerFilter;
 
     @Override
     public void configure(WebSecurity web) {

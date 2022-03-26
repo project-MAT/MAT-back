@@ -18,12 +18,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final MemberRepository memberRepository;
     private final MemberService memberService;
-        
+
+    @Transactional
     public Long create(NotificationDto notificationDto){
         Notification notification = notificationDto.toEntity();
         List<Member> byEmail = memberRepository.findByEmail(MemberService.getUserEmail());
@@ -31,6 +31,8 @@ public class NotificationService {
         notification.setMember(member);
         return notificationRepository.save(notification).getNotification_id();
     }
+
+    @Transactional
     public void updateNotification(Long notificationIdx, NotificationDto notificationDto){
         Notification notification = notificationDto.toEntity();
         Member member = findOne(notificationIdx).getMember();
@@ -42,6 +44,8 @@ public class NotificationService {
             throw new UserNotFoundException("User can't find", ErrorCode.USER_NOT_FOUND);
         }
     }
+
+    @Transactional
     public void deleteNotification(Long notificationIdx){
         Member findMember = memberRepository.findByEmail(MemberService.getUserEmail()).get(0);
         if(findOne(notificationIdx).getMember()==findMember){
@@ -53,10 +57,12 @@ public class NotificationService {
             throw new UserNotFoundException("User can't find", ErrorCode.USER_NOT_FOUND);
         }
     }
+
     @Transactional(readOnly = true)
     public List<Notification> findAll(){
         return notificationRepository.findAll();
     }
+
     @Transactional(readOnly = true)
     public Notification findOne(Long id){
         Notification byId = notificationRepository.findById(id)
@@ -66,9 +72,10 @@ public class NotificationService {
         }
         return byId;
     }
+
     @Transactional(readOnly = true)
     public List<Notification> findByGoods(){
-        return notificationRepository.findByGoods();
+        return notificationRepository.findAllOrderByGoods();
     }
     @Transactional(readOnly = true)
     public List<Notification> findMy() {
@@ -76,10 +83,10 @@ public class NotificationService {
     }
     @Transactional(readOnly = true)
     public List<Notification> findByKeyWord(String keyWord){
-        return notificationRepository.findBySearch(keyWord);
+        return notificationRepository.findAllByTitleLike(keyWord);
     }
     @Transactional(readOnly = true)
-    public List<Notification> findByNew(){return notificationRepository.findByNewer();}
+    public List<Notification> findByNew(){return notificationRepository.findAllOrderByNewer();}
 
     public void addGoods(Long id){
         Notification notification = notificationRepository.findById(id)

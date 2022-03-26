@@ -19,7 +19,7 @@ public class Notification {
     private int goods;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="member_id",nullable = false)
     private Member member;
 

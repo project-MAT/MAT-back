@@ -2,7 +2,6 @@ package com.gsm.mat.notification.service;
 
 import com.gsm.mat.notification.Notification;
 import com.gsm.mat.notification.dto.NotificationDto;
-import com.gsm.mat.notification.repository.NotificationRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

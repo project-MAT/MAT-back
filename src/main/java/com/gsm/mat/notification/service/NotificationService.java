@@ -29,7 +29,7 @@ public class NotificationService {
         List<Member> byEmail = memberRepository.findByEmail(MemberService.getUserEmail());
         Member member = byEmail.get(0);
         notification.setMember(member);
-        return notificationRepository.save(notification);
+        return notificationRepository.save(notification).getNotification_id();
     }
     public void updateNotification(Long notificationIdx, NotificationDto notificationDto){
         Notification notification = notificationDto.toEntity();
@@ -45,7 +45,9 @@ public class NotificationService {
     public void deleteNotification(Long notificationIdx){
         Member findMember = memberRepository.findByEmail(MemberService.getUserEmail()).get(0);
         if(findOne(notificationIdx).getMember()==findMember){
-            notificationRepository.delete(notificationIdx);
+            Notification notification = notificationRepository.findById(notificationIdx)
+                    .orElseThrow(() -> new NotificationNotFindException("Notification can't find", ErrorCode.NOTIFICATION_NOT_FIND));
+            notificationRepository.delete(notification);
         }
         else{
             throw new UserNotFoundException("User can't find", ErrorCode.USER_NOT_FOUND);
@@ -57,7 +59,8 @@ public class NotificationService {
     }
     @Transactional(readOnly = true)
     public Notification findOne(Long id){
-        Notification byId = notificationRepository.findById(id);
+        Notification byId = notificationRepository.findById(id)
+                .orElseThrow(() -> new NotificationNotFindException("Notification can't find", ErrorCode.NOTIFICATION_NOT_FIND));
         if(byId == null){
             throw new NotificationNotFindException("notification can't find", ErrorCode.NOTIFICATION_NOT_FIND);
         }
@@ -79,11 +82,13 @@ public class NotificationService {
     public List<Notification> findByNew(){return notificationRepository.findByNewer();}
 
     public void addGoods(Long id){
-        Notification notification = notificationRepository.findById(id);
+        Notification notification = notificationRepository.findById(id)
+                .orElseThrow(()->new NotificationNotFindException("Notification can't find", ErrorCode.NOTIFICATION_NOT_FIND));
         notification.updateGoods(notification.getGoods()+1);
     }
     public void minusGoods(Long id){
-        Notification notification = notificationRepository.findById(id);
+        Notification notification = notificationRepository.findById(id)
+                .orElseThrow(()->new NotificationNotFindException("Notification can't find", ErrorCode.NOTIFICATION_NOT_FIND));
         if(notification.getGoods()>0){notification.updateGoods(notification.getGoods()-1);}
         else {throw new NotMinusGoodsException("this notification's goods are smaller than 1", ErrorCode.CAN_NOT_MINUS);}
     }

@@ -29,9 +29,12 @@ public class TagService {
         }
     }
     public List<Tag> findByNotification(Long notificationIdx){
-        return tagRepository.findByNotification(notificationIdx);
+        Notification notification = notificationService.findOne(notificationIdx);
+        return tagRepository.findByNotification(notification);
     }
     public void deleteTag(Long tagIdx){
-        tagRepository.delete(tagIdx);
+        Tag tag = tagRepository.findById(tagIdx)
+                .orElseThrow(() -> new RuntimeException());
+        tagRepository.delete(tag);
     }
 }

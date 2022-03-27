@@ -17,6 +17,7 @@ public enum ErrorCode {
     CAN_NOT_MINUS(400, "Can't minus notification's goods", ErrorClassification.COMMON+"-ERR-400"),
     DUPLICATE_MEMBER(406, "Member already exists", ErrorClassification.MEMBER+"-ERR-406"),
     NOTIFICATION_NOT_FIND(404, "Notification can't find", ErrorClassification.COMMON+"-ERR-404"),
+    TAG_NOT_FIND(404, "Tag can't find", ErrorClassification.COMMON+"-ERR-404"),
     ;
     private int status;
     private String message;

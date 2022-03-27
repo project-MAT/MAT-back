@@ -1,5 +1,7 @@
 package com.gsm.mat.tag.service;
 
+import com.gsm.mat.exception.ErrorCode;
+import com.gsm.mat.exception.exception.TagNotFindException;
 import com.gsm.mat.notification.Notification;
 import com.gsm.mat.notification.service.NotificationService;
 import com.gsm.mat.tag.Tag;
@@ -34,7 +36,7 @@ public class TagService {
     }
     public void deleteTag(Long tagIdx){
         Tag tag = tagRepository.findById(tagIdx)
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(() -> new TagNotFindException("Tag can't find", ErrorCode.TAG_NOT_FIND));
         tagRepository.delete(tag);
     }
 }

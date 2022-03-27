@@ -68,6 +68,13 @@ public class GlobalExceptionController {
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
     }
 
+    @ExceptionHandler(TagNotFindException.class)
+    public ResponseEntity<ErrorResponse> TagNotFindExceptionHandler(HttpServletRequest request, HttpServletResponse response, TagNotFindException ex){
+        printExceptionMessage(request, ex, "notification can't find");
+        ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
+    }
+
     private void printExceptionMessage(HttpServletRequest request, RuntimeException ex, String message) {
         log.error(request.getRequestURI());
         log.error(message);

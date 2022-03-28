@@ -54,6 +54,8 @@ public class MemberService {
         final String accessToken=tokenProvider.generateAccessToken(member.getEmail());
         final String refreshToken=tokenProvider.generateRefreshToken(member.getEmail());
 
+        member.updateRefreshToken(refreshToken);
+
         Map<String,String> map=new HashMap<>();
         map.put("id",member.getEmail());
         map.put("accessToken",accessToken);

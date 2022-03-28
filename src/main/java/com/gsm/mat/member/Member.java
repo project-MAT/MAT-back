@@ -31,12 +31,19 @@ public class Member implements UserDetails {
     private String discordNum;//디스코드 번호
 
     @JsonIgnore
+    private String refreshToken;
+
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "member_id")
     private List<Notification> notifications;
 
     public void updateMajority(String majority){
         this.majority=majority;
+    }
+
+    public void updateRefreshToken(String refreshToken){
+        this.refreshToken=refreshToken;
     }
 
     @Override

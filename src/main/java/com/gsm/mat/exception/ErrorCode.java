@@ -18,6 +18,7 @@ public enum ErrorCode {
     DUPLICATE_MEMBER(406, "Member already exists", ErrorClassification.MEMBER+"-ERR-406"),
     NOTIFICATION_NOT_FIND(404, "Notification can't find", ErrorClassification.COMMON+"-ERR-404"),
     TAG_NOT_FIND(404, "Tag can't find", ErrorClassification.COMMON+"-ERR-404"),
+    TOKEN_EXPIRED(401, "Token is expired", ErrorClassification.COMMON+"-ERR-401"),
     ;
     private int status;
     private String message;

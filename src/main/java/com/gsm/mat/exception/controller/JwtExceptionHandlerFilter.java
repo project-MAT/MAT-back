@@ -6,6 +6,7 @@ import com.gsm.mat.exception.ErrorResponse;
 import com.gsm.mat.exception.exception.AccessTokenExpiredException;
 import com.gsm.mat.exception.exception.InvalidTokenException;
 import com.gsm.mat.exception.exception.UserNotFoundException;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.entity.ContentType;
@@ -35,6 +36,8 @@ public class JwtExceptionHandlerFilter extends OncePerRequestFilter {
             responseErrorMessage(response, e.getErrorCode());
         }catch (UserNotFoundException e){
             responseErrorMessage(response, e.getErrorCode());
+        }catch (JwtException e){
+            responseErrorMessage(response, ErrorCode.TOKEN_EXPIRED);
         }catch(Exception e){
             log.error("알 수 없는 에러", e);
             responseErrorMessage(response, ErrorCode.UNKNOWN_ERROR);

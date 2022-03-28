@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@AllArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
 @Getter @Builder
 public class Member implements UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,7 +35,9 @@ public class Member implements UserDetails {
     @JoinColumn(name = "member_id")
     private List<Notification> notifications;
 
-    public Member() {}
+    public void updateMajority(String majority){
+        this.majority=majority;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

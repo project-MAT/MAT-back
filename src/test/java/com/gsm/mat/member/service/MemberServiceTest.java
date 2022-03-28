@@ -3,7 +3,6 @@ package com.gsm.mat.member.service;
 import com.gsm.mat.member.Member;
 import com.gsm.mat.member.dto.MemberDto;
 import com.gsm.mat.member.dto.SignInDto;
-import com.gsm.mat.member.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

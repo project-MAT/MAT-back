@@ -5,7 +5,6 @@ import com.gsm.mat.exception.exception.NotMinusGoodsException;
 import com.gsm.mat.exception.exception.NotificationNotFindException;
 import com.gsm.mat.exception.exception.UserNotFoundException;
 import com.gsm.mat.member.Member;
-import com.gsm.mat.member.repository.MemberRepository;
 import com.gsm.mat.member.service.MemberService;
 import com.gsm.mat.notification.Notification;
 import com.gsm.mat.notification.dto.NotificationDto;

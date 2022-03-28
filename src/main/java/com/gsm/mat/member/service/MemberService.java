@@ -3,6 +3,7 @@ package com.gsm.mat.member.service;
 import com.gsm.mat.configuration.security.jwt.TokenProvider;
 import com.gsm.mat.exception.ErrorCode;
 import com.gsm.mat.exception.exception.DuplicateMemberException;
+import com.gsm.mat.exception.exception.MemberNotExistsException;
 import com.gsm.mat.exception.exception.PasswordNotCorrectException;
 import com.gsm.mat.exception.exception.UserNotFoundException;
 import com.gsm.mat.member.Member;
@@ -42,11 +43,10 @@ public class MemberService {
     /**
      *로그인
      */
-    public Map<String,String> login(String id,String password){
-        List<Member> byEmail = memberRepository.findByEmail(id);
-        if(byEmail.size()==0){throw new UserNotFoundException("User can't find", ErrorCode.USER_NOT_FOUND);}//해당 id를 가진 유저가 존재하는지 확인
+    public Map<String,String> login(String email,String password){
+        Member member = memberRepository.findOneByEmail(email);
+        if(member==null){throw new UserNotFoundException("User can't find", ErrorCode.USER_NOT_FOUND);}//해당 id를 가진 유저가 존재하는지 확인
 
-        Member member = byEmail.get(0);
         boolean check = passwordEncoder.matches(password, member.getPassword());
         if(!check){throw new PasswordNotCorrectException("Password is not correct", ErrorCode.PASSWORD_NOT_MATCH);}
 
@@ -63,11 +63,12 @@ public class MemberService {
 
     public void changeMajority(String majority){
         String userEmail = getUserEmail();
-        memberRepository.updateMajority(majority);
+        Member member = findByEmail(userEmail);
+        member.updateMajority(majority);
     }
     private void validDuplicateMember(Member member) {
-        List<Member> byEmail = memberRepository.findByEmail(member.getEmail());
-        if(!byEmail.isEmpty()){
+        Member byEmail = memberRepository.findOneByEmail(member.getEmail());
+        if(!(byEmail==null)){
             throw new DuplicateMemberException("Member already exists", ErrorCode.DUPLICATE_MEMBER);
         }
     }
@@ -75,13 +76,17 @@ public class MemberService {
     //회원조회
     @Transactional(readOnly = true)
     public Member findOne(Long memberId){
-        return memberRepository.findById(memberId);
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotExistsException("Member can't find", ErrorCode.MEMBER_NOT_EXISTS));
     }
 
     @Transactional(readOnly = true)
     public Member findByEmail(String email){
-        List<Member> byEmail = memberRepository.findByEmail(email);
-        return byEmail.get(0);
+        Member byEmail = memberRepository.findOneByEmail(email);
+        if(byEmail==null){
+            throw new MemberNotExistsException("Member can't find", ErrorCode.MEMBER_NOT_EXISTS);
+        }
+        return byEmail;
     }
 
     static public String getUserEmail() {

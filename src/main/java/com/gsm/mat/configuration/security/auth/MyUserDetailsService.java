@@ -1,6 +1,5 @@
 package com.gsm.mat.configuration.security.auth;
 
-import com.gsm.mat.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

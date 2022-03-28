@@ -1,5 +1,6 @@
 package com.gsm.mat.configuration.security.auth;
 
+import com.gsm.mat.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,6 +13,6 @@ public class MyUserDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return memberRepository.findByEmail(username).get(0);
+        return memberRepository.findOneByEmail(username);
     }
 }

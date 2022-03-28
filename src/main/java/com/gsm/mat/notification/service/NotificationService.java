@@ -19,14 +19,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NotificationService {
     private final NotificationRepository notificationRepository;
-    private final MemberRepository memberRepository;
     private final MemberService memberService;
 
     @Transactional
     public Long create(NotificationDto notificationDto){
         Notification notification = notificationDto.toEntity();
-        List<Member> byEmail = memberRepository.findByEmail(MemberService.getUserEmail());
-        Member member = byEmail.get(0);
+        Member member = memberService.findByEmail(MemberService.getUserEmail());
         notification.setMember(member);
         return notificationRepository.save(notification).getNotification_id();
     }
@@ -35,7 +33,7 @@ public class NotificationService {
     public void updateNotification(Long notificationIdx, NotificationDto notificationDto){
         Notification notification = notificationDto.toEntity();
         Member member = findOne(notificationIdx).getMember();
-        Member findMember = memberRepository.findByEmail(MemberService.getUserEmail()).get(0);
+        Member findMember = memberService.findByEmail(MemberService.getUserEmail());
         if(member==findMember){
             notification.update(findOne(notificationIdx));
         }
@@ -46,8 +44,8 @@ public class NotificationService {
 
     @Transactional
     public void deleteNotification(Long notificationIdx){
-        Member findMember = memberRepository.findByEmail(MemberService.getUserEmail()).get(0);
-        if(findOne(notificationIdx).getMember()==findMember){
+        Member member = memberService.findByEmail(MemberService.getUserEmail());
+        if(findOne(notificationIdx).getMember()==member){
             Notification notification = notificationRepository.findById(notificationIdx)
                     .orElseThrow(() -> new NotificationNotFindException("Notification can't find", ErrorCode.NOTIFICATION_NOT_FIND));
             notificationRepository.delete(notification);

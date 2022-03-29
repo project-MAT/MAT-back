@@ -57,7 +57,7 @@ public class MemberService {
         member.updateRefreshToken(refreshToken);
 
         Map<String,String> map=new HashMap<>();
-        map.put("id",member.getEmail());
+        map.put("email",member.getEmail());
         map.put("accessToken",accessToken);
         map.put("refreshToken",refreshToken);
         return map;

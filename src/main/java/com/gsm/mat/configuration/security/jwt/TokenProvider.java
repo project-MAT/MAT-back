@@ -13,8 +13,8 @@ import java.util.Date;
 
 @Component
 public class TokenProvider {
-    public static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 3;// 3시간
-    public static long REFRESH_TOKEN_EXPIRED_TIME = ACCESS_TOKEN_EXPIRE_TIME/3 * 24 * 180;
+    public static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 /** 60 * 60 * 3*/;// 3시간
+    public static final long REFRESH_TOKEN_EXPIRED_TIME = 1000 * 60 * 60 * 3;
     @Value("${jwt.secret}")
     private String SECRET_KEY;
     enum TokenType{
@@ -45,7 +45,7 @@ public class TokenProvider {
                 .getBody();
     }
     public String getUserEmail(String token){
-        return extractAllClaims(token).get(TokenClaimName.USER_EMAIL.value,String.class);
+        return extractAllClaims(token).getSubject();
     }
     public String getTokenType(String token){
         return extractAllClaims(token).get(TokenClaimName.TOKEN_TYPE.value,String.class);
@@ -60,8 +60,7 @@ public class TokenProvider {
         }
     }
     private String doGenerateToken(String userEmail, TokenType tokenType, long expireTime) {
-        final Claims claims = Jwts.claims();
-        claims.put("userEmail", userEmail);
+        final Claims claims = Jwts.claims().setSubject(userEmail);
         claims.put("tokenType", tokenType.value);
         return Jwts.builder()
                 .setClaims(claims)

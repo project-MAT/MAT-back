@@ -4,6 +4,7 @@ import com.gsm.mat.configuration.security.auth.MyUserDetailsService;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,7 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtRequestFilter extends OncePerRequestFilter {
     private final TokenProvider tokenProvider;
     private final MyUserDetailsService memberService;
@@ -28,12 +30,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String accessToken=request.getHeader("Authorization");
         String refreshToken=request.getHeader("RefreshToken");
         if(accessToken!=null){
-            String userEmail=accessTokenExtractEmail(accessToken);
-            if(userEmail!=null) registerUserinfoInSecurityContext(userEmail, request);
-            if(tokenProvider.isTokenExpired(accessToken) && refreshToken != null){
+            if(tokenProvider.isTokenExpired(accessToken) && refreshToken != null && !tokenProvider.isTokenExpired(refreshToken)){
                 String newAccessToken = generateNewAccessToken(refreshToken);
                 response.addHeader("JwtToken", newAccessToken);
             }
+            String userEmail=accessTokenExtractEmail(accessToken);
+            if(userEmail!=null) registerUserinfoInSecurityContext(userEmail, request);
         }
         filterChain.doFilter(request, response);
     }

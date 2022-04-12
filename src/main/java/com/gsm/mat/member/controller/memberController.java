@@ -40,7 +40,7 @@ public class memberController {
         return responseService.getSingleResult(memberService.login(signInDto.getEmail(),signInDto.getPassword()));
     }
     @PostMapping("/member/logout")
-    public CommonResult logOut(){
+    public CommonResult logOut() {
         return responseService.getSuccessResult();
     }
 }

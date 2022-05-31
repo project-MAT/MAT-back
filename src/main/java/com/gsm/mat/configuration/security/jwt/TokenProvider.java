@@ -13,8 +13,8 @@ import java.util.Date;
 
 @Component
 public class TokenProvider {
-    public static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 /** 60 * 60 * 3*/;// 3시간
-    public static final long REFRESH_TOKEN_EXPIRED_TIME = 1000 * 60 * 60 * 3;
+    public static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 3;// 3시간
+    public static final long REFRESH_TOKEN_EXPIRED_TIME = ACCESS_TOKEN_EXPIRE_TIME * 8 * 180;
     @Value("${jwt.secret}")
     private String SECRET_KEY;
     enum TokenType{

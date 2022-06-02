@@ -85,11 +85,14 @@ public class NotificationService {
     @Transactional(readOnly = true)
     public List<Notification> findByNew(){return notificationRepository.findAllOrderByNewer();}
 
+    @Transactional
     public void addGoods(Long id){
         Notification notification = notificationRepository.findById(id)
                 .orElseThrow(()->new NotificationNotFindException("Notification can't find", ErrorCode.NOTIFICATION_NOT_FIND));
         notification.updateGoods(notification.getGoods()+1);
     }
+
+    @Transactional
     public void minusGoods(Long id){
         Notification notification = notificationRepository.findById(id)
                 .orElseThrow(()->new NotificationNotFindException("Notification can't find", ErrorCode.NOTIFICATION_NOT_FIND));
